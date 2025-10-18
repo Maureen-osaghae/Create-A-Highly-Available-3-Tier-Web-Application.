@@ -60,6 +60,64 @@ Give it a name: Inventory-LB
 Scroll down to the Network mapping section, then for VPC, choose Lab VPC. Specify which subnets the load balancer should use. It will be a public load balancer, select both public subnets.
 Under Mappings, choose the first Availability Zone, then choose the Public Subnet that displays. selected two subnets: Public Subnet 1 and Public Subnet 2. 
 
+<img width="959" height="476" alt="image" src="https://github.com/user-attachments/assets/c282034c-231a-428c-a46b-9d103c9778b1" />
+
+
+ In the Security groups section,  select the Create a new security group hyperlink. This opens a new browser tab. Configure the new security group settings:
+
+
+---
+
+- Security group name: Inventory-LB
+- Description: Enable web access to load balancer
+- VPC:  Then select Lab VPC.
+
+---
+
+<img width="959" height="445" alt="image" src="https://github.com/user-attachments/assets/364d8629-f831-4e88-8c62-f452bc00e961" />
+
+Under Inbound rules,  choose Add rule and configure as described:
+
+---
+- Type: HTTP
+- Source: Anywhere-IPv4
+- Still under Inbound rules, I choose Add rule again and configure:
+- Type: HTTPS
+-Source: Anywhere-IPv4
+
+---
+
+<img width="956" height="467" alt="image" src="https://github.com/user-attachments/assets/df90efa8-7d50-4a6f-ab7d-e3842e52a4ee" />
+
+<img width="959" height="439" alt="image" src="https://github.com/user-attachments/assets/51128b48-6131-4408-8f1c-e4864984ccdc" />
+
+Assign the security group to the load balancer where you are still configuring the load balancer.
+
+<img width="959" height="451" alt="image" src="https://github.com/user-attachments/assets/2afae447-a1b1-46f7-b7f9-88a5c6e31d2d" />
+
+In the Listeners and routing section, choose Create target group.
+
+**Analysis:** Target groups define where to send traffic that comes into the load balancer. The Application Load Balancer can send traffic to multiple target groups based upon the URL of the incoming request, such as having requests from mobile apps going to a different set of servers. Your web application will use only one target group.
+
+---
+
+## Configure the target group as described here:
+- Target type: Instances
+- Target group name: Inventory-App
+- VPC: Ensure that Lab VPC is chosen.
+
+---
+
+Scroll down and expand 8*Advanced health check settings.** The Application Load Balancer automatically performs health checks on all instances to ensure that they are responding to requests. The default settings are recommended, but you will need to make them slightly faster for use in this lab.
+
+---
+- Healthy threshold: 2
+- Interval: 10 (seconds)
+
+---
+
+The configurations you have chosen will result in the health check being performed every 10 seconds, and if the instance responds correctly twice in a row, it will be considered healthy.
+
 
 
 
