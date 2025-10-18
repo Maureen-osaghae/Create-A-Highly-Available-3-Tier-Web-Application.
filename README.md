@@ -119,6 +119,27 @@ Scroll down and expand 8*Advanced health check settings.** The Application Load 
 The configurations you have chosen will result in the health check being performed every 10 seconds, and if the instance responds correctly twice in a row, it will be considered healthy.
 
 
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/ca450d7c-984e-49b3-a4a1-2ee332b01eb7" />
+
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/66869294-56c0-458c-b997-fb251bf6cd38" />
+
+<img width="958" height="473" alt="image" src="https://github.com/user-attachments/assets/3b54e3d9-d184-4c06-8500-11e6292ab49d" />
+
+Choose Next. The Register targets screen appears. Targets are the individual instances that will respond to requests from the load balancer. I do not have any web application instances yet, so I can skip this step. Review the settings and choose Create target group.
+
+<img width="959" height="453" alt="image" src="https://github.com/user-attachments/assets/6d940397-da5d-4688-9901-47bcf103ab74" />
+
+Return to the browser tab where you already started defining the load balancer.
+In the Listeners and routing section
+For the Listener HTTP:80 row,  set the Default action to forward to the Inventory-App target group you just created.
+Scroll to the bottom of the page, and choose Create load balancer.
+
+<img width="959" height="464" alt="image" src="https://github.com/user-attachments/assets/50e48ccf-a7dd-4a2d-9fab-2aaba6ad284c" />
+
+
+
+
+
 
 
 
