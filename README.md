@@ -200,6 +200,50 @@ Under User data,  paste in the script below:
 Create launch template
 Next, create an Auto Scaling group that uses this launch template. **The Auto Scaling group defines where to launch the EC2 instances.**
 
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/2118e0bc-c663-4032-bab6-95d309c57ad4" />
+
+Actions menu, choose **Create Auto Scaling group**
+Configure the details in Step 1 (Choose launch template or configuration):
+
+---
+- Auto Scaling group name: Inventory-ASG (ASG stands for Auto Scaling group)
+- Launch template: Confirm that the Inventory-LT template you just created is selected.
+
+---
+
+<img width="959" height="447" alt="image" src="https://github.com/user-attachments/assets/d557a1c1-9afb-4afb-8735-e237cc0f8b60" />
+
+Choose next
+
+---
+
+## Configure the details in Step 2 (Choose instance launch options):
+- VPC: Lab VPC
+- Availability Zones and subnets: Choose Private Subnet 1 and then choose Private Subnet 2. This will launch EC2 instances in private subnets across both Availability Zones.
+
+---
+
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/3710eec2-5651-45fd-9121-22b0c6d0f9fa" />
+
+Choose next
+
+---
+
+## Configure the details in Step 3 (Configure advanced options):
+- In the Load balancing panel:
+- Choose Attach to an existing load balancer
+- Existing load balancer target groups: select Inventory-App.
+- In the Health checks panel:
+- Health check grace period: 90 seconds
+- In the Additional settings panel:
+- Select Enable group metrics collection within CloudWatch
+
+This will capture metrics at 1-minute intervals, which allows Auto Scaling to react quickly to changing usage patterns.
+
+---
+
+
+
 
 
 
