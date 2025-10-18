@@ -242,6 +242,26 @@ This will capture metrics at 1-minute intervals, which allows Auto Scaling to re
 
 ---
 
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/b592669d-d21f-49da-abca-719845c11ec1" />
+
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/5ef2db4f-2fa6-484c-9a56-51010bb8c96b" />
+
+Choose next
+
+---
+
+Configure the details in Step 4 (Configure group size and scaling policies - optional):
+- Under Group size, configure: 
+- Desired capacity: 2
+- Minimum capacity: 2
+- Maximum capacity: 2
+- This will allow Auto Scaling to automatically add/remove instances, always keeping between 2 and instances running.
+- Under Scaling policies, hoose None 
+      
+      ---
+
+
+
 
 
 
