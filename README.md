@@ -136,6 +136,80 @@ Scroll to the bottom of the page, and choose Create load balancer.
 
 <img width="959" height="464" alt="image" src="https://github.com/user-attachments/assets/50e48ccf-a7dd-4a2d-9fab-2aaba6ad284c" />
 
+# Step 2: Create an Auto Scaling group
+
+Amazon EC2 Auto Scaling is a service designed to launch or terminate Amazon EC2 instances automatically based on user-defined policies, schedules, and health checks. It also automatically distributes instances across multiple Availability Zones to make applications highly available.
+Create an Auto Scaling group that deploys EC2 instances across private subnets, which is a security best practice for application deployment. 
+Instances in a private subnet cannot be accessed from the internet. Instead, users send requests to the load balancer, which forwards the requests to EC2 instances in the private subnets.
+
+<img width="401" height="281" alt="image" src="https://github.com/user-attachments/assets/1979767c-1b66-442b-b29c-e9e763788bfe" />
+
+# Create an AMI for Auto Scaling
+Create an Amazon Machine Image (AMI) from the existing **Web Server 1.** This will save the contents of the root volume of the web server so that new instances can be launched with an identically configure guest operating system.
+Head to the EC2 Console;
+Choose Instances. Select the Web Server 1.
+
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/8a89f4f8-0c8f-4b2c-b71b-762187a28925" />
+
+---
+## Actions menu, choose Image and templates > Create image, then configure:
+
+- Image name: Web Server AMI
+- Image description: Lab AMI for Web Server
+
+---
+
+<img width="959" height="463" alt="image" src="https://github.com/user-attachments/assets/627b43e7-67a6-4f45-a10e-f93d34d71df6" />
+
+<img width="955" height="452" alt="image" src="https://github.com/user-attachments/assets/e227cdac-6037-4728-a991-3a046d7d9a80" />
+
+<img width="959" height="292" alt="image" src="https://github.com/user-attachments/assets/6b147426-a436-4886-8273-dfa7610a13a0" />
+
+## Create a Launch Template and an Auto Scaling Group
+First create a launch template. **A launch template is a template that an Auto Scaling group uses to launch EC2 instances**. When you create a launch template, you specify information for the instances such as the AMI, the instance type, a key pair, and security group. 
+
+---
+## Configure the launch template settings and create it:
+- Launch template name: Inventory-LT
+- Under Auto Scaling guidance,  select Provide guidance to help me set up a template that I can use with EC2 Auto Scaling
+- In the Application and OS Images (Amazon Machine Image) area, choose My AMIs.
+- Amazon Machine Image (AMI): choose Web Server AMI
+- Instance type: choose t2.micro
+- Key pair name: choose vockey
+- Firewall (security groups): choose Select existing security group
+- Security groups: choose Inventory-App
+- Scroll down to the Advanced details area and expand it.
+- IAM instance profile: choose Inventory-App-Role
+- Scroll down to the Detailed CloudWatch monitoring setting. Select Enable 
+
+This will allow Auto Scaling to react quickly to changing utilization.
+---
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/e0453b1e-e385-42f0-828e-6b66bd19c87d" />
+
+<img width="839" height="359" alt="image" src="https://github.com/user-attachments/assets/52a5e1f1-7b22-4084-b876-7dc607c121db" />
+
+<img width="839" height="359" alt="image" src="https://github.com/user-attachments/assets/0a838e15-e19b-4623-b345-f5daf93cc109" />
+
+Under User data,  paste in the script below: 
+
+<img width="959" height="451" alt="image" src="https://github.com/user-attachments/assets/a6016b81-3a1d-41f4-baa8-80dfa5f0323c" />
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/cb104abb-c1f4-41e5-b9f5-74babff5413c" />
+
+Create launch template
+Next, create an Auto Scaling group that uses this launch template. **The Auto Scaling group defines where to launch the EC2 instances.**
+
+
+
+
+
+
+   
+
+
+
+
 
 
 
