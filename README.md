@@ -49,6 +49,19 @@ In the EC2 console, choose Load Balancers > create load balancer
 
 <img width="959" height="447" alt="image" src="https://github.com/user-attachments/assets/14a1877e-3366-435d-80da-709bad1eee1e" />
 
+Under Application Load Balancer, choose Create.
+
+<img width="959" height="469" alt="image" src="https://github.com/user-attachments/assets/50ff4110-1a32-4b23-8dca-cecec0efd383" />
+
+Give it a name: Inventory-LB
+
+<img width="959" height="467" alt="image" src="https://github.com/user-attachments/assets/b317c41c-f1b8-4170-80d1-2c3a7c216186" />
+
+Scroll down to the Network mapping section, then for VPC, choose Lab VPC. Specify which subnets the load balancer should use. It will be a public load balancer, select both public subnets.
+Under Mappings, choose the first Availability Zone, then choose the Public Subnet that displays. selected two subnets: Public Subnet 1 and Public Subnet 2. 
+
+
+
 
 
 
