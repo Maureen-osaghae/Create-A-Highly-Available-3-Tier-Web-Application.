@@ -332,6 +332,88 @@ Next, create an Auto Scaling group that uses this launch template. **The Auto Sc
 
 ---
 
+<img width="959" height="447" alt="image" src="https://github.com/user-attachments/assets/d819e0a6-7d06-4032-8f0d-46cf232c4944" />
+
+Choose next
+
+---
+## Configure the details in Step 2 (Choose instance launch options):
+- VPC: Lab VPC
+- Availability Zones and subnets: Choose Private Subnet 1 and then choose Private Subnet 2. This will launch EC2 instances in private subnets across both Availability Zones.
+
+---
+
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/42be71f2-28dd-4e29-a865-8a21cad50ce9" />
+
+---
+
+## Configure the details in Step 3 (Configure advanced options):
+- In the Load balancing panel:
+        - Choose Attach to an existing load balancer
+        - Existing load balancer target groups: select Inventory-App.
+- In the Health checks panel:
+        - Health check grace period: 90 seconds
+- In the Additional settings panel:
+        - Select Enable group metrics collection within CloudWatch
+
+This will capture metrics at 1-minute intervals, which allows Auto Scaling to react quickly to changing usage patterns.
+
+
+---
+
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/01167f13-976e-4779-ad67-cb8bcc87f46c" />
+
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/2b0d4572-0656-47f2-abbc-16f6dd85d569" />
+
+Choose next
+
+---
+
+## Configure the details in Step 4 (Configure group size and scaling policies - optional):
+- Under Group size, configure: 
+- Desired capacity: 2
+- Minimum capacity: 2
+- Maximum capacity: 2
+- This will allow Auto Scaling to automatically add/remove instances, always keeping between 2 and instances running.
+- Under Scaling policies, hoose None 
+      
+---
+For this lab, I will maintain two instances at all times to ensure high availability. If the application is expected to receive varying loads of traffic, I can also create scaling policies that define when to launch or terminate instances. However, I do not need to create scaling policies for the Inventory application in this lab.
+
+<img width="959" height="434" alt="image" src="https://github.com/user-attachments/assets/44c8b31f-dbab-465f-9e29-254b39a35f84" />
+
+Choose next, I do not need to configure any of these settings. 
+
+<img width="955" height="374" alt="image" src="https://github.com/user-attachments/assets/c51be85b-aa0e-4559-9f21-daff23c44354" />
+
+Choose next again
+---
+
+## Configure the details in Step 6 (Add tags - optional):
+- Choose Add tag and Configure the following:
+- Key: Name
+- Value: Inventory-App
+
+---
+
+These settings will tag the Auto Scaling group with a Name, which will also appear on the EC2 instances that are launched by the Auto Scaling group. I can use tags to identify which Amazon EC2 instances are associated with which application. I could also add tags such as Cost Center to assign application costs in the billing files.
+
+<img width="959" height="425" alt="image" src="https://github.com/user-attachments/assets/44ea9510-04bb-46bf-9ca7-48820b42f42f" />
+
+Click next.
+Review the details of my Auto Scaling group
+      
+Create Auto Scaling group
+      
+My Auto Scaling group initially show an instance count of zero, but new instances will be launched to reach the Desired count of 2 instances.
+The Inventory-ASG  appear in the console
+
+
+
+
+
+
+
 
 
 
