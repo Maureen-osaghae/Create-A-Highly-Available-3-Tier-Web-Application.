@@ -406,7 +406,11 @@ Review the details of my Auto Scaling group
 Create Auto Scaling group
       
 My Auto Scaling group initially show an instance count of zero, but new instances will be launched to reach the Desired count of 2 instances.
-The Inventory-ASG  appear in the console
+The Inventory-ASG  appear in the console. 
+
+<img width="959" height="287" alt="image" src="https://github.com/user-attachments/assets/efdbefe8-edc2-4063-ace2-f690b679976c" />
+
+
 
 
 
