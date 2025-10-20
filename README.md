@@ -256,9 +256,86 @@ Configure the details in Step 4 (Configure group size and scaling policies - opt
 - Minimum capacity: 2
 - Maximum capacity: 2
 - This will allow Auto Scaling to automatically add/remove instances, always keeping between 2 and instances running.
-- Under Scaling policies, hoose None 
+- Under Scaling policies, choose None 
       
-      ---
+---
+
+# Step 2: Create an Auto Scaling group
+
+Amazon EC2 Auto Scaling is a service designed to launch or terminate Amazon EC2 instances automatically based on user-defined policies, schedules, and health checks. It also automatically distributes instances across multiple Availability Zones to make applications highly available.
+Create an Auto Scaling group that deploys EC2 instances across private subnets, which is a security best practice for application deployment. 
+Instances in a private subnet cannot be accessed from the internet. Instead, users send requests to the load balancer, which forwards the requests to EC2 instances in the private subnets.
+
+
+# Create an AMI for Auto Scaling
+Create an Amazon Machine Image (AMI) from the existing **Web Server 1.** This will save the contents of the root volume of the web server so that new instances can be launched with an identically configure guest operating system.
+Head to the EC2 Console;
+Choose Instances. Select the Web Server 1.
+
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/ec12e002-fb54-484a-b6e4-f01ccd865b26" />
+
+---
+
+## Actions menu, choose Image and templates > Create image, then configure:
+- Image name: Web Server AMI
+- Image description: Lab AMI for Web Server
+
+---
+
+<img width="959" height="463" alt="image" src="https://github.com/user-attachments/assets/64c25241-8c6a-4802-a25e-bfdd5249e3f4" />
+
+<img width="955" height="452" alt="image" src="https://github.com/user-attachments/assets/5e865111-8435-42a0-993e-8238897ace99" />
+
+<img width="959" height="292" alt="image" src="https://github.com/user-attachments/assets/34a581f6-49b6-400c-9511-a9b9ca4fcbdc" />
+
+## Create a Launch Template and an Auto Scaling Group
+First create a launch template. **A launch template is a template that an Auto Scaling group uses to launch EC2 instances**. When you create a launch template, you specify information for the instances such as the AMI, the instance type, a key pair, and security group. 
+
+---
+
+## Configure the launch template settings and create it:
+- Launch template name: Inventory-LT
+- Under Auto Scaling guidance,  select Provide guidance to help me set up a template that I can use with EC2 Auto Scaling
+- In the Application and OS Images (Amazon Machine Image) area, choose My AMIs.
+- Amazon Machine Image (AMI): choose Web Server AMI
+- Instance type: choose t2.micro
+- Key pair name: choose vockey
+- Firewall (security groups): choose Select existing security group
+- Security groups: choose Inventory-App
+- Scroll down to the Advanced details area and expand it.
+- IAM instance profile: choose Inventory-App-Role
+- Scroll down to the Detailed CloudWatch monitoring setting. Select Enable 
+- This will allow Auto Scaling to react quickly to changing utilization.
+
+---
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/f3396831-3ead-47fb-b916-c8de3e3e3e3a" />
+
+<img width="839" height="359" alt="image" src="https://github.com/user-attachments/assets/177ba47c-1b22-4910-b78f-9164866b5140" />
+
+<img width="839" height="359" alt="image" src="https://github.com/user-attachments/assets/f51bb6d6-b3b7-40b2-9850-ec3bff358091" />
+
+Under User data,  paste in the script below: 
+
+<img width="959" height="451" alt="image" src="https://github.com/user-attachments/assets/6979c736-01ae-4621-8f2d-03212228bad9" />
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/2c8462e9-b249-41d0-8b83-495f8f700ec7" />
+
+# Create launch template
+Next, create an Auto Scaling group that uses this launch template. **The Auto Scaling group defines where to launch the EC2 instances.**
+
+ Actions menu, choose **Create Auto Scaling group**
+---
+## Configure the details in Step 1 (Choose launch template or configuration):
+- Auto Scaling group name: Inventory-ASG (ASG stands for Auto Scaling group)
+- Launch template: Confirm that the Inventory-LT template you just created is selected.
+
+---
+
+
+
+
+
 
 
 
