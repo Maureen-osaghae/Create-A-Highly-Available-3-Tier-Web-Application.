@@ -410,6 +410,72 @@ The Inventory-ASG  appear in the console.
 
 <img width="959" height="287" alt="image" src="https://github.com/user-attachments/assets/efdbefe8-edc2-4063-ace2-f690b679976c" />
 
+# Step 4: Updating security groups
+The application deployed is a three-tier architecture. I will now configure the security groups to enforce these tiers:
+
+<img width="401" height="100" alt="image" src="https://github.com/user-attachments/assets/7a7c79e2-52e7-4e7a-8699-fdbd21e81077" />
+
+# Load balancer security group
+I already configured the load balancer security group when I created the load balancer. It accepts all incoming HTTP and HTTPS traffic.
+The load balancer has been configured to forward incoming requests to a target group. When Auto Scaling launches new instances, it will automatically add those instances to the target group.
+# Application security group
+The application security group was provided as part of the lab setup. I will now configure it to only accept incoming traffic from the load balancer.
+ In the left navigation pane, choose Security Groups> Inventory-App.
+       Choose the Inbound rules tab.
+The security group is currently empty. I will now add a rule to accept incoming HTTP traffic from the load balancer. I do not need to configure HTTPS traffic because the load balancer was configured to forward HTTPS requests via HTTP. This practice offloads security to the load balancer, reducing the amount of work that is required by the individual application servers.
+
+Choose Edit inbound rules.
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/4735feb0-6245-490c-8179-898da02fea12" />
+
+On the Edit inbound rules page, choose Add rule and configure these settings:
+      
+---
+
+ ## Type: HTTP
+- Source:
+- Choose the search box to the right of Custom
+- Delete the current contents
+- Enter sg
+- From the list that appears, select Inventory-LB
+- Description: Traffic from load balancer
+- Choose Save rules
+
+---
+
+<img width="959" height="377" alt="image" src="https://github.com/user-attachments/assets/f28cf3b3-88fe-4a89-ab09-3d41566752cf" />
+
+The application servers can now receive traffic from the load balancer. This includes health checks that the load balancer performs automatically. 
+
+# Database security group
+Configure the database security group to only accept incoming traffic from the application servers.
+In the **Security groups** list, choose Inventory-DB 
+The existing rule permits traffic on port 3306 (used by MySQL) from any IP address within the VPC. This is a good rule, but security can be restricted further.
+
+<img width="959" height="311" alt="image" src="https://github.com/user-attachments/assets/5000567a-807f-488d-b860-3f55c4d2c027" />
+
+---
+
+## In the Inbound rules tab,  Edit inbound rules and configure these settings:
+- I Delete the existing rule.
+- I Choose Add rule.
+- For Type, choose MYSQL/Aurora
+- Choose the search box to the right of Custom
+- Enter sg
+- From the list that appears, I select Inventory-App
+- Description: Traffic from application servers
+- Choose Save rules
+
+---
+
+I have now configured three-tier security. Each element in the tier only accepts traffic from the tier above.
+In addition, the use of private subnets means that you have two security barriers between the internet and your application resources. This architecture follows the best practice of applying multiple layers of security.
+
+
+
+
+
+
 
 
 
