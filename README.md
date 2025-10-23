@@ -546,6 +546,70 @@ Scroll back up and for DB instance class, select db.t3.small.
 
 Under Schedule modifications, select Apply immediately.
 
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/4b09ec94-0162-4955-b288-a4e93d0da265" />
+
+Choose Modify DB instance. The database enters a modifying state while it applies the changes. I do not need to wait for it to complete. 
+The database enters a modifying state while it applies the changes. 
+
+<img width="959" height="436" alt="image" src="https://github.com/user-attachments/assets/20ae604c-b2db-4bcc-b51d-38a4a2dccbc1" />
+
+# Configuring a highly available NAT gateway
+
+The application servers run in a private subnet. If the servers must access the internet (for example, to download data), the requests must be redirected through a Network Address Translation (NAT) gateway. (The NAT gateway must be located in a public subnet).
+The current architecture has only one NAT gateway in Public Subnet 1. Thus, if Availability Zone 1 fails, the application servers will not be able to communicate with the internet.
+In this  task, I will make the NAT gateway highly available by launching another NAT gateway in the other Availability Zone. The resulting architecture will be highly available:
+
+<img width="451" height="278" alt="image" src="https://github.com/user-attachments/assets/63f8ef1d-ab95-4d39-aba0-e8224b4b28e9" />
+
+In the VPC console, In the left navigation pane, choose NAT gateways. The existing NAT gateway displays. Create a NAT gateway for the other Availability Zone.
+
+---
+
+## Choose create NAT gateway and configure these settings:
+- Subnet: Public Subnet 2
+- Allocate Elastic IP
+- Create NAT gateway
+
+---
+
+ You will now create a new route table for Private Subnet 2. This route table will redirect traffic to the new NAT gateway.
+
+ <img width="959" height="435" alt="image" src="https://github.com/user-attachments/assets/7a6e550a-9217-455d-b817-42635f7ee3f1" />
+
+ In the left navigation pane, choose Route tables.>Create route table and configure these settings:
+- Name: Private Route Table 2
+- VPC: Lab VPC
+- Choose Create route table.
+
+  Currently, one route directs all traffic locally. You will now add a route to send internet-bound traffic through the new NAT gateway.
+
+<img width="958" height="446" alt="image" src="https://github.com/user-attachments/assets/a89953cb-d005-478e-9a02-50b5b9a77dc4" />
+
+<img width="959" height="416" alt="image" src="https://github.com/user-attachments/assets/0d4cb060-5fd8-41a4-a4e7-ffaccd8e7b6d" />
+
+---
+## Edit routes and then configure these settings:
+- Add route
+- Destination: 0.0.0.0/0
+- Target: Select NAT Gateway, I created just now and save changes
+- Choose the Subnet associations tab.
+- Choose Edit subnet associations
+- Select Private Subnet 2.
+
+---
+
+<img width="959" height="410" alt="image" src="https://github.com/user-attachments/assets/ae5207bb-bb4a-4f12-a211-cdde435f55dd" />
+
+Save associations
+This action now sends internet-bound traffic from Private Subnet 2 to the NAT gateway that is in the same Availability Zone. The NAT gateways are now highly available. A failure in one Availability Zone will not impact traffic in the other Availability Zone.
+
+Conclusion:
+write it here
+
+
+
+
+
 
  
 
