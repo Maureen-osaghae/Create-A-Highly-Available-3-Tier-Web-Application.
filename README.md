@@ -20,7 +20,7 @@ The solution follows AWS best practices for high availability and security, cons
 
 ---
 
-## 🧩 Services Used
+## Services Used
 
 - **Amazon EC2** – Web and application servers  
 - **Elastic Load Balancer (ALB)** – Traffic routing and health checks  
@@ -41,6 +41,59 @@ Critical business systems should be deployed as highly available applications. T
 Many AWS services are inherently highly available, such as elastic load balancers. Many AWS services can also be configured for high availability, such as deploying Amazon Elastic Compute Cloud (Amazon EC2) instances in multiple Availability Zones, RDS in multi-AZ. In this lab, I started with an application that runs on a single EC2 instance. I then make the application highly available.
 
 <img width="440" height="275" alt="image" src="https://github.com/user-attachments/assets/389bcb63-d4aa-4929-b8a4-72048503f6d9" />
+
+
+## Implementation Steps
+
+### Create the Application Load Balancer
+- Deployed an **Application Load Balancer (ALB)** across two public subnets.
+- Configured **target groups** and health checks to route traffic to healthy EC2 instances only.
+- Associated a **security group** allowing HTTP/HTTPS inbound access from the internet.
+
+### Configure Auto Scaling Group
+- Created an **AMI** of the existing web server.
+- Built a **Launch Template** specifying AMI, instance type, IAM role, and security group.
+- Configured an **Auto Scaling Group (ASG)** to launch EC2 instances in private subnets across multiple AZs.
+- Attached the ASG to the ALB and enabled **CloudWatch metrics** for monitoring and scaling events.
+
+### Enforce Tiered Security
+- **Load Balancer SG:** Allows inbound HTTP/HTTPS from the internet.  
+- **Application SG:** Accepts HTTP traffic only from Load Balancer SG.  
+- **Database SG:** Accepts MySQL (port 3306) only from Application SG.  
+- Implemented **defense-in-depth** via subnet isolation and security group chaining.
+
+### Database High Availability
+- Enabled **Multi-AZ deployment** for Amazon RDS MySQL instance.
+- Scaled DB instance class and storage for improved performance and resilience.
+- Achieved automated failover with zero application downtime.
+
+###  NAT Gateway Redundancy
+- Deployed **secondary NAT Gateway** in the second public subnet.
+- Updated **private route tables** to use zone-local NAT Gateways for high availability.
+- Ensured private EC2 instances maintain internet access even during AZ outages.
+
+---
+
+## Testing & Validation
+
+- Verified application access via **Load Balancer DNS name**.  
+- Simulated EC2 failure by terminating one instance — traffic seamlessly routed to healthy instance.  
+- Auto Scaling automatically launched a replacement EC2 instance.  
+- RDS failover tested successfully with uninterrupted database connectivity.  
+
+---
+
+## Results
+
+- **High Availability:** Zero downtime during instance or AZ failure.  
+- **Scalability:** Automatically adjusts capacity via Auto Scaling policies.  
+- **Security:** Multi-tier isolation and least-privilege access enforced.  
+- **Resilience:** Multi-AZ redundancy for both compute and database layers.  
+- **Observability:** Active health checks and CloudWatch monitoring across tiers.  
+
+---
+
+## LAB WALKTHROUGH
 
 ## Step 1: Create an Application Load Balancer
 
