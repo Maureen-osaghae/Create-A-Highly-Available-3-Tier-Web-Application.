@@ -93,6 +93,17 @@ Many AWS services are inherently highly available, such as elastic load balancer
 
 ---
 
+---
+
+## Key Learnings
+
+- Implementing HA architectures across multiple AWS Availability Zones  
+- Automating infrastructure provisioning and recovery with Auto Scaling  
+- Designing secure multi-tier network topologies within AWS VPC  
+- Applying AWS well-architected framework principles for operational excellence  
+
+---
+
 ## LAB WALKTHROUGH
 
 ## Step 1: Create an Application Load Balancer
@@ -663,8 +674,15 @@ In the VPC console, In the left navigation pane, choose NAT gateways. The existi
 Save associations
 This action now sends internet-bound traffic from Private Subnet 2 to the NAT gateway that is in the same Availability Zone. The NAT gateways are now highly available. A failure in one Availability Zone will not impact traffic in the other Availability Zone.
 
-Conclusion:
-write it here
+## 🗺️ Architecture Diagram
+
+![AWS 3-Tier Architecture Diagram](https://github.com/user-attachments/assets/2d6e72be-40d1-4617-a2ad-115ee3f6afef)
+
+---
+
+### Conclusion
+This project highlights the end-to-end deployment of a **fault-tolerant, auto-healing, and secure 3-tier web application** on AWS.  
+It demonstrates practical experience with **EC2, ALB, Auto Scaling, RDS, VPC**, and **NAT Gateway** configuration—essential components of modern cloud architecture.
 
 
 
