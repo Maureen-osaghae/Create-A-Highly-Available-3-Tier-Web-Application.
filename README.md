@@ -23,7 +23,7 @@ At the end of this lab, my architecture will look like the following example:
 <img width="404" height="265" alt="image" src="https://github.com/user-attachments/assets/2d6e72be-40d1-4617-a2ad-115ee3f6afef" />
 
 ---
-## This lab begins with an environment that was already deployed via AWS CloudFormation. It includes:
+## To shorten this lab, it begins with an environment that I already deployed via AWS CloudFormation. It includes:
 
 - A VPC
 - Public and private subnets in two Availability Zones
@@ -470,6 +470,89 @@ The existing rule permits traffic on port 3306 (used by MySQL) from any IP addre
 
 I have now configured three-tier security. Each element in the tier only accepts traffic from the tier above.
 In addition, the use of private subnets means that you have two security barriers between the internet and your application resources. This architecture follows the best practice of applying multiple layers of security.
+
+# Task 5: Testing the application
+
+My application is now ready for testing.
+In this task, confirm that the web application is running. Also test that it is highly available. In the left navigation pane, choose Target Groups>Select Inventory-App.
+ 
+In the lower half of the page, choose the Targets tab. This tab should show two registered targets. The Health status column shows the results of the load balancer health check that is performed against the instances.
+
+<img width="959" height="437" alt="image" src="https://github.com/user-attachments/assets/3876d2b2-984b-48c1-8dff-b07cf63c33f7" />
+
+Test the application by connecting to the load balancer, which will then send request to one of the EC2 instances. Retrieve the Domain Name System (DNS) name of the load balancer.
+
+<img width="959" height="432" alt="image" src="https://github.com/user-attachments/assets/e1efae0f-ca2c-442b-b351-1e2e938f671a" />
+
+Open a new web browser tab, paste the DNS name from my clipboard and press ENTER. The load balancer forwarded my request to one of the EC2 instances. The instance ID and Availability Zone are shown at the bottom of the webpage.
+
+<img width="824" height="286" alt="image" src="https://github.com/user-attachments/assets/846c6982-8d70-4ed9-9f4d-ed5280319052" />
+
+When I reload the page in my web browser. I notice that the instance ID and Availability Zone sometimes toggles between the two instances.
+
+<img width="789" height="273" alt="image" src="https://github.com/user-attachments/assets/01622bb0-4845-47f7-ba33-d041beb4c67f" />
+
+When this web application displays, the flow of data over the network is:
+
+<img width="452" height="120" alt="image" src="https://github.com/user-attachments/assets/55097a33-f2fb-4f98-ba51-d9e94ca0b058" />
+
+## I sent the request to the load balancer, which resides in the public subnets that are connected to the internet.
+- The load balancer chose one of the EC2 instances that reside in the private subnets and forwarded the request to it.
+- The EC2 instance then returned the webpage content to the load balancer, which returned it to my web browser.
+
+  # Step 6: Testing high availability
+The application was configured to be highly available. I can prove the application's high availability by terminating one of the EC2 instances. 
+       In the left navigation pane, choose Instances.
+       Select one of the Inventory-App instances (it does not matter which one you select).
+ Choose Instance State > Terminate instance. Choose Terminate.
+
+ <img width="959" height="406" alt="image" src="https://github.com/user-attachments/assets/4511aa6f-8f88-43cf-ac4e-30731a9c2d2e" />
+
+In a short time, the load balancer health checks will notice that the instance is not responding. The load balancer will automatically route all requests to the remaining instance.
+ Return to the web application tab in my web browser and reload the page several times.
+       Notice that the Availability Zone that is shown at the bottom of the page stays the same. Though an instance failed, my application remains available.
+       After a few minutes, Amazon EC2 Auto Scaling will also notice the instance failure. It was configured to keep two instances running, so Amazon EC2 Auto Scaling automatically launch a replacement instance.
+The load balancer will resume sending traffic between the two Availability Zones. 
+This task demonstrates that my application is now highly available. 
+
+# Step7: Making the database highly available
+
+The application architecture is now highly available. However, the Amazon RDS database operates from only one database instance.
+In this optional task, I will make the database highly available by configuring it to run across multiple Availability Zones (that is, in a Multi-AZ deployment).
+
+<img width="443" height="259" alt="image" src="https://github.com/user-attachments/assets/ba7f5d98-a714-4ef0-ac01-898dfe19ae25" />
+On the Services menu, choose RDS > choose Databases.
+Choose the link for the name of the inventory-db instance>Modify
+
+<img width="954" height="433" alt="image" src="https://github.com/user-attachments/assets/9b865d7c-b07f-4df4-b4b6-9b90a88b3c85" />
+
+Scroll down to the Availability & durability section. For Multi-AZ deployment, select Create a standby instance.
+**Analysis:** You only need to reconfigure this one setting to convert the database to run across multiple data centers (Availability Zones).
+This option does not mean that the database is distributed across multiple instances. Instead, one instance is the primary instance, which handles all requests. Another instance will be launched as the standby instance, which takes over if the primary instance fails. My application continues to use the same DNS name for the database. However, the connections will automatically redirect to the currently active database server.
+
+I can scale an EC2 instance by changing attributes, and I can also scale an RDS database this way. I will now scale up the database.
+
+<img width="950" height="397" alt="image" src="https://github.com/user-attachments/assets/936c727f-4390-46f4-a32b-61ad57c71464" />
+
+<img width="959" height="443" alt="image" src="https://github.com/user-attachments/assets/49da17b7-0fb5-46c8-9d2f-4170440de9eb" />
+
+Scroll back up and for DB instance class, select db.t3.small.
+       This action doubles the size of the instance.
+
+  For Allocated storage, enter: 10
+       This action doubles the amount of space that is allocated to the database.
+       At the bottom of the page, choose Continue
+       Database performance will be impacted by these changes. Therefore, these changes can be scheduled during a defined maintenance window, or they can be run immediately.
+
+Under Schedule modifications, select Apply immediately.
+
+
+ 
+
+
+
+
+
 
 
 
