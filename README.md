@@ -1,37 +1,44 @@
-# Create A Highly Available 3 Tier Web Application.
+# Highly Available 3-Tier Web Application on AWS
 
-**Cloud Platform:** AWS
-**Services used:** Amazon EC2, Load Balancer, Autoscaling Group, RDS, VPC
+This project demonstrates the design and deployment of a **Highly Available (HA) 3-Tier Web Application** on **Amazon Web Services (AWS)**.  
+The architecture was built to ensure **fault tolerance, scalability, and high availability** across multiple Availability Zones using AWS native services.
+
+---
+
+##  Architecture Overview
+
+The solution follows AWS best practices for high availability and security, consisting of:
+
+- **VPC** with public and private subnets across two Availability Zones  
+- **Application Load Balancer (ALB)** for traffic distribution and health checks  
+- **Auto Scaling Group (ASG)** managing EC2 instances across multiple AZs  
+- **Amazon RDS (MySQL)** with Multi-AZ configuration for high availability  
+- **NAT Gateways** in both public subnets for internet access from private instances  
+- **Security Groups** enforcing strict three-tier isolation between Web, App, and DB layers  
+
+---
+
+---
+
+## 🧩 Services Used
+
+- **Amazon EC2** – Web and application servers  
+- **Elastic Load Balancer (ALB)** – Traffic routing and health checks  
+- **Auto Scaling Group (ASG)** – Automated scaling and instance recovery  
+- **Amazon RDS** – Managed database (Multi-AZ setup)  
+- **Amazon VPC** – Custom networking with public/private subnets  
+- **NAT Gateway** – Outbound internet access for private subnets  
+- **Amazon CloudWatch** – Monitoring and alerting  
+- **IAM** – Role-based access management and least privilege  
+
+---
+
 
 # LAB SCENARIO 
 
 Critical business systems should be deployed as highly available applications. That is, applications remain operational even when some components fail. 
 **To achieve high availability in Amazon Web Services (AWS), AWS recommend that you run services across multiple Availability Zones.**
 Many AWS services are inherently highly available, such as elastic load balancers. Many AWS services can also be configured for high availability, such as deploying Amazon Elastic Compute Cloud (Amazon EC2) instances in multiple Availability Zones, RDS in multi-AZ. In this lab, I started with an application that runs on a single EC2 instance. I then make the application highly available.
-
----
-
-## What I build:
-  -  Create an Application Load Balancer
-  -  Create an Auto Scaling group
-  -  Test the application for high availability
-
----
-
-At the end of this lab, my architecture will look like the following example: 
-
-<img width="404" height="265" alt="image" src="https://github.com/user-attachments/assets/2d6e72be-40d1-4617-a2ad-115ee3f6afef" />
-
----
-## To shorten this lab, it begins with an environment that I already deployed via AWS CloudFormation. It includes:
-
-- A VPC
-- Public and private subnets in two Availability Zones
-- An internet gateway (not shown) that is associated with the public subnets
-- A Network Address Translation (NAT) gateway in one of the public subnets
-- An Amazon Relational Database Service (Amazon RDS) instance in one of the private subnets
-
----
 
 <img width="440" height="275" alt="image" src="https://github.com/user-attachments/assets/389bcb63-d4aa-4929-b8a4-72048503f6d9" />
 
